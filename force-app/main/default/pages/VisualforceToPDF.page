@@ -1,0 +1,167 @@
+<!--  
+* File Name    : VisualforceToPDF.page  
+* Function     :  
+* Author       : Romeo
+* Date         : 2022.10.04.  
+* Description  : Custom Create PDF Page  
+* Modification Log  
+* ===============================================================  
+* Ver  Date        Author          Modification  
+* ===============================================================  
+* 1.0  2022.10.04.  Romeo         Create  
+--> 
+
+<apex:page standardController="Quote" extensions="QuotesWithController" 
+        renderAs="pdf" showHeader="false" docType="html-5.0" 
+        standardStylesheets="false" applyBodyTag="false">
+<head>
+<style type="text/css" media="print">
+body{    
+    font-family: Arial Unicode MS;
+    font-size: 12px;
+    }
+    .column, .conColumn{
+        padding: 5px;
+        text-align: center;
+    }
+    .orgText{
+        padding: 0 50px 0 5px;
+    }
+    
+</style>
+</head>
+<hr />
+<apex:pageBlock title="Visualforce To PDF">
+        <apex:pageBlockSection>
+            <!-- <apex:image url="{!URLFOR($Resource.OnBoardingLogo)}" /> -->
+            <apex:image width="200px" value="{!$Resource.OnBoardingLogo}" />
+        </apex:pageBlockSection>
+        <hr />
+
+        <apex:pageBlockSection title="Organization 조직 ">
+            <!-- <apex:outputText styleClass="orgText" value="{!$Organization.Id}" label="Id" /> -->
+            <apex:outputText styleClass="orgText" value="{!$Organization.Name}" label="조직 이름" />
+            <apex:outputText styleClass="orgText" value="{!$Organization.Division}" label="부서" />
+            <apex:outputText styleClass="orgText" value="{!$Organization.Street}" label="주소" />
+            <apex:outputText styleClass="orgText" value="{!$Organization.City}" label="도시" />
+            <apex:outputText styleClass="orgText" value="{!$Organization.State}" label="State" />
+            <apex:outputText styleClass="orgText" value="{!$Organization.PostalCode}" label="우편번호" />
+            <apex:outputText styleClass="orgText" value="{!$Organization.Country}" label="국가" />
+            <apex:outputText styleClass="orgText" value="{!$Organization.Fax}" label="팩스" />   
+            <apex:outputText styleClass="orgText" value="{!$Organization.Phone}" label="전화번호" />
+            <!-- <apex:outputText styleClass="orgText" value="{!$Organization.GoogleAppsDomain}" label="GoogleAppsDomain" /> -->
+        </apex:pageBlockSection>
+        <hr />
+
+        <apex:pageBlockSection title="Company Information 회사 정보">
+            <apex:outputField styleClass="comField" label="회사명" value="{!Quote.Account.Industry}" />
+            <apex:outputField styleClass="comField" label="계정명" value="{!Quote.Account.Name}" />
+            <apex:outputField styleClass="comField" label="계정 Owner" value="{!Quote.Account.OwnerId}" />
+            <apex:outputField styleClass="comField" label="계정 번호" value="{!Quote.Account.AccountNumber}" />
+            <apex:outputField styleClass="comField" label="도시" value="{!Quote.Account.BillingCity}" />
+            <apex:outputField styleClass="comField" label="나라" value="{!Quote.Account.BillingCountry}" />
+            <apex:outputField styleClass="comField" label="계정 통화($)" value="{!Quote.Account.CurrencyIsoCode}" />
+            <apex:outputField styleClass="comField" label="계정 전화번호" value="{!Quote.Account.Phone}" />
+        </apex:pageBlockSection>
+        <hr />
+
+        <apex:pageBlockSection title="Customer Information 고객 정보">
+            <apex:pageBlockTable border="1" value="{!Contacts}" var="ct">
+                <apex:column styleClass="conColumn">
+                    <apex:facet name="header">계정 이름</apex:facet>
+                    <apex:outputField value="{!ct.AccountId}" />
+                </apex:column>
+
+                <apex:column styleClass="conColumn">
+                    <apex:facet name="header">고객 이름</apex:facet>
+                    <apex:outputField value="{!ct.Name}" />
+                </apex:column>
+
+                <!-- <apex:column styleClass="conColumn">
+                    <apex:facet name="header">이름</apex:facet>
+                    <apex:outputField value="{!ct.FirstName}" />
+                </apex:column> -->
+
+                <!-- <apex:column styleClass="conColumn">
+                    <apex:facet name="header">성</apex:facet>
+                    <apex:outputField value="{!ct.LastName}" />
+                </apex:column> -->
+
+                <apex:column styleClass="conColumn">
+                    <apex:facet name="header">고객 Owner</apex:facet>
+                    <apex:outputField value="{!ct.OwnerId}" />
+                </apex:column>
+
+                <apex:column styleClass="conColumn">
+                    <apex:facet name="header">고객 Title</apex:facet>
+                    <apex:outputField value="{!ct.Title}" />
+                </apex:column>
+
+                <apex:column styleClass="conColumn">
+                    <apex:facet name="header">이메일</apex:facet>
+                    <apex:outputField value="{!ct.Email}" />
+                </apex:column>
+
+                <apex:column styleClass="conColumn">
+                    <apex:facet name="header">전화번호</apex:facet>
+                    <apex:outputField value="{!ct.Phone}" />
+                </apex:column>
+
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+        <hr />
+
+        <apex:pageBlockSection title="Product Information 제품 정보">
+            <apex:pageBlockTable border="1" value="{!QuoteLineItems}" var="li">
+                <apex:column styleClass="column">
+                    <apex:facet name="header">제품명</apex:facet>
+                    <apex:outputField styleClass="comField" value="{!li.Product2Id}" />
+                </apex:column>
+
+                <apex:column  styleClass="column">
+                    <apex:facet name="header">제품 이미지</apex:facet>
+                    <apex:outputField styleClass="comField" value="{!li.Quote_Product_Image__c}" />
+                </apex:column>
+
+                <apex:column styleClass="column" >
+                    <apex:facet name="header">입고 날짜</apex:facet>
+                    <apex:outputField styleClass="comField" value="{!li.ServiceDate}"/>
+                </apex:column>
+
+                <apex:column styleClass="column" >
+                    <apex:facet name="header">설명</apex:facet>
+                    <apex:outputField styleClass="comField" value="{!li.Description}"/>
+                </apex:column>
+
+                <apex:column styleClass="column" >
+                    <apex:facet name="header">수량</apex:facet>
+                    <apex:outputField styleClass="comField" value="{!li.Quantity}"/>
+                </apex:column>
+
+                <apex:column styleClass="column" value="{!li.UnitPrice}">
+                    <!-- <apex:facet name="header">Unit Price</apex:facet>
+                    <apex:outputText styleClass="comField" value="{!li.UnitPrice}"/> -->
+                </apex:column>
+
+                <apex:column styleClass="column" value="{!li.ListPrice}">
+                    <!-- <apex:facet name="header">List Price</apex:facet>
+                    <apex:outputText styleClass="comField" value="{!li.ListPrice}"/> -->
+                </apex:column>
+
+                <apex:column styleClass="column" value="{!li.Discount}">
+                    <!-- <apex:facet name="header">할인</apex:facet>
+                    <apex:outputField styleClass="comField" value="{!li.Discount}"/> -->
+                </apex:column>
+
+                <apex:column styleClass="column" value="{!li.TotalPrice}">
+                    <!-- <apex:facet name="header">총 금액</apex:facet>
+                    <apex:outputText styleClass="comField" value="{!li.TotalPrice}"/> -->
+                </apex:column>
+
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+        <hr />
+
+    </apex:pageBlock>
+
+</apex:page>

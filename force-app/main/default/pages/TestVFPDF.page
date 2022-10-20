@@ -1,0 +1,208 @@
+<apex:page standardController="Quote" extensions="ExtensionTestVFPDF" renderAs="pdf" 
+        showHeader="false" docType="html-5.0" applyHtmlTag="false"
+        standardStylesheets="false" applyBodyTag="false">
+<head>
+    <style type="text/css" media="print">
+        body{    
+            font-family: Arial Unicode MS;
+            font-size: 14px;
+            }
+    td{
+        text-align: center;
+        width: auto;
+    }
+    </style>
+</head>
+<apex:pageBlock title="Test Visulforce PDF">
+    <apex:pageBlockSection>
+        <apex:image width="200px" value="{!$Resource.OnBoardingLogo}" />
+    </apex:pageBlockSection>
+    <hr />
+    
+    <h2><strong>Organization</strong></h2>
+    <table>
+        <tr>
+            <!-- <td> Id </td> -->
+            <td> 조직 이름 </td>
+            <td> 부서 </td>
+            <td> 주소 </td>
+            <td> 주소 </td>
+            <td> 도시 </td>
+            <td> State </td>
+            <td> 우편번호 </td>
+            <td> 나라 </td>
+            <td> 팩스 </td>
+            <td> 전화번호 </td>
+            <!-- <td> GoogleAppsDomain </td> -->
+        </tr>
+        <tr>
+            <!-- <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.Id}" label="Id" />
+            </td> -->
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.Name}" label="조직 이름" />
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.Division}" label="부서" />
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.Street}" label="주소" />
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.City}" label="도시" />
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.State}" label="State" />
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.PostalCode}" label="우편번호" />
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.Country}" label="국가" />
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.Fax}" label="팩스" />   
+            </td>
+            <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.Phone}" label="전화번호" />
+            </td>
+            <!-- <td>
+                <apex:outputText styleClass="orgText" value="{!$Organization.GoogleAppsDomain}" label="GoogleAppsDomain" />
+            </td> -->
+        </tr>
+    </table>
+    <hr />
+    
+    <h2><strong>회사 정보</strong></h2>
+    <table>
+        <tr>
+            <td>회사명</td>
+            <td>계정명</td>
+            <td>계정 Owner</td>
+            <td>계정 번호</td>
+            <td>도시</td>
+            <td>나라</td>
+            <td>계정 전화번호</td>
+        </tr>
+        <tr>
+            <td>
+                <apex:outputField styleClass="comField" label="회사명" value="{!Quote.Account.Industry}" />
+            </td>
+            <td>
+                <apex:outputField styleClass="comField" label="계정명" value="{!Quote.Account.Name}" />
+            </td>
+            <td>
+                <apex:outputField styleClass="comField" label="계정 Owner" value="{!Quote.Account.OwnerId}" />
+            </td>
+            <td>
+                <apex:outputField styleClass="comField" label="계정 번호" value="{!Quote.Account.AccountNumber}" />
+            </td>
+            <td>
+                <apex:outputField styleClass="comField" label="도시" value="{!Quote.Account.BillingCity}" />
+            </td>
+            <td>
+                <apex:outputField styleClass="comField" label="나라" value="{!Quote.Account.BillingCountry}" />
+            </td>
+            <td>
+                <apex:outputField styleClass="comField" label="계정 전화번호" value="{!Quote.Account.Phone}" />
+            </td>
+        </tr>
+    </table>
+    <hr />
+
+    <h2><strong>고객 정보</strong></h2>
+    <table>
+        <tr>
+            <td>계정 이름</td>
+            <td>고객 이름</td>
+            <td>이름</td>
+            <td>성</td>
+            <td>고객 Owner</td>
+            <td>고객 Title</td>
+            <td>이메일</td>
+            <td>전화번호</td>
+        </tr>
+        <apex:repeat value="{!Contacts}" var="ct">
+            <tr>
+                <td>
+                    <apex:outputField value="{!ct.AccountId}" />
+                </td>
+                <td>
+                    <apex:outputField value="{!ct.Name}" />
+                </td>
+                <td>
+                    <apex:outputField value="{!ct.FirstName}" />
+                </td>
+                <td>
+                    <apex:outputField value="{!ct.LastName}" />
+                </td>
+                <td>
+                    <apex:outputField value="{!ct.OwnerId}" />
+                </td>
+                <td>
+                    <apex:outputField value="{!ct.Title}" />
+                </td>
+                <td>
+                    <apex:outputField value="{!ct.Email}" />
+                </td>
+                <td>
+                    <apex:outputField value="{!ct.Phone}" />
+                </td>
+            </tr>
+        </apex:repeat>
+</table>
+<hr />
+
+    <h2><strong>제품 정보</strong></h2>
+    <table border="1">
+        <tr>
+            <td> 제품명 </td>
+            <td> 이미지 </td>
+                <td> 입고일 </td>
+                <td> 설명 </td>
+                <td> 수량 </td>
+                <td> UnitPrice </td>
+                <td> ListPrice </td>
+                <td> 할인 </td>
+                <td> 합계 금액 </td>
+            </tr>
+            <apex:repeat value="{!QuoteLineItems}" var="li">
+                <tr>
+                    <td>
+                        <apex:outputField value="{!li.Product2Id}" />
+                    </td>
+                    <td>
+                        <apex:repeat value="{!ContentDocument}" var="a"> 
+                            <p>
+                                <apex:image rendered="{!IF(li.Product2Id == a.FirstPublishLocationId, true, false)}" width="50"  value="/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&versionId={!a.Id}" />
+                            </p>
+                        </apex:repeat>
+                    </td>
+                    <td>
+                        <apex:outputField value="{!li.ServiceDate}"/>
+                    </td>
+                    <td>
+                        <apex:outputField value="{!li.Description}"/>
+                    </td>
+                    <td>
+                        <apex:outputField value="{!li.Quantity}"/>
+                    </td>
+                    <td>
+                        <apex:outputField value="{!li.UnitPrice}"/>
+                    </td>
+                    <td>
+                        <apex:outputField value="{!li.ListPrice}"/>
+                    </td>
+                    <td>
+                        <apex:outputField value="{!li.Discount}"/>
+                    </td>
+                    <td>
+                        <apex:outputField value="{!li.TotalPrice}"/>
+                    </td>
+                </tr>
+            </apex:repeat>
+        </table>
+    <hr />
+    
+</apex:pageBlock>
+</apex:page>

@@ -1,0 +1,6 @@
+<apex:page action="CalloutController">
+    <h1>Hello</h1>
+    <apex:form >
+        <apex:commandButton action="{! startRequest}" value="send" />
+    </apex:form>
+</apex:page>
